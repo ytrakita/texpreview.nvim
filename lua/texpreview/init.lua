@@ -12,7 +12,7 @@ local M = {}
 local function get_stdpath(what, idx)
   if not what then return end
 
-  local ret = vim.fn.stdpath(what)
+  local ret = vfn.stdpath(what)
   if type(ret) == 'table' then
     ret = ret[idx]
   end
@@ -32,9 +32,9 @@ M.config = {
     'latexmk',
     '-C',
   },
-  tmp_path = fs.joinpath(get_stdpath('state'), '/texpreview.nvim/tmp'),
+  tmp_path = fs.joinpath(get_stdpath 'state', 'texpreview.nvim', 'tmp'),
   timeout = 1500,
-  server_name = fs.joinpath(get_stdpath('cache'), 'synctex-server.pipe'),
+  server_name = fs.joinpath(get_stdpath 'cache', 'synctex-server.pipe'),
 }
 
 local status = {}
@@ -156,8 +156,7 @@ function M.backward_search(line, file)
 end
 
 function M.setup(opts)
-  opts = opts or {}
-  M.config = vim.tbl_deep_extend('force', M.config, opts)
+  M.config = vim.tbl_deep_extend('force', M.config, opts or {})
 end
 
 return M
