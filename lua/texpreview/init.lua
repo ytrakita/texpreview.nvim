@@ -78,6 +78,21 @@ local function stop()
   table.remove(status, idx)
 end
 
+function M.typeset()
+  local cfg = M.config
+  local bnum = api.nvim_get_current_buf()
+
+  vfn.mkdir(cfg.tmp_path, 'p')
+  if not vim.tbl_contains(vfn.serverlist(), cfg.server_name) then
+    vfn.serverstart(cfg.server_name)
+  end
+
+  preview.typeset(bnum, cfg.ts_cmd, cfg.tmp_path)
+  local fname = api.nvim_buf_get_name(bnum)
+  local msg = ('typeset %s.pdf'):format(vfn.fnamemodify(fname, ':t:r'))
+  util.echo(msg)
+end
+
 function M.toggle()
   if vim.b.texpreview then
     stop()
