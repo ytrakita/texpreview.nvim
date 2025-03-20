@@ -1,4 +1,5 @@
 local qf = require 'texpreview.qf'
+local util = require 'texpreview.util'
 
 local vim = vim
 local api = vim.api
@@ -18,7 +19,7 @@ function M.view_pdf(vw_cmd, src_path)
   vim.system(vw_cmd, {}, function() end)
 end
 
-function M.typeset(bnum, ts_cmd, tmp_path, vw_cmd)
+function M.typeset(bnum, ts_cmd, tmp_path, vw_cmd, msg)
   local buf_path = api.nvim_buf_get_name(bnum)
 
   local lines = api.nvim_buf_get_lines(bnum, 0, -1, false)
@@ -37,6 +38,9 @@ function M.typeset(bnum, ts_cmd, tmp_path, vw_cmd)
       return
     elseif vw_cmd then
       M.view_pdf(vw_cmd, src_path)
+    end
+    if msg then
+      util.echo(msg)
     end
     vim.cmd.cclose()
   end))

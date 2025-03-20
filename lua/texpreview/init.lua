@@ -87,10 +87,9 @@ function M.typeset()
     vfn.serverstart(cfg.server_name)
   end
 
-  preview.typeset(bnum, cfg.ts_cmd, cfg.tmp_path)
   local fname = api.nvim_buf_get_name(bnum)
   local msg = ('typeset %s.pdf'):format(vfn.fnamemodify(fname, ':t:r'))
-  util.echo(msg)
+  preview.typeset(bnum, cfg.ts_cmd, cfg.tmp_path, nil, msg)
 end
 
 function M.toggle()
